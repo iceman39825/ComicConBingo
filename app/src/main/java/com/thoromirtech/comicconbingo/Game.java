@@ -31,7 +31,7 @@ public class Game extends View {
 	private Context context;
 	boolean gameOver = false;
 	
-	public Game(Context context) {
+	public Game(Context context, DatabaseHelper db) {
 		super(context);
 		this.context = context;
 		this.setBackgroundColor(Color.WHITE);
@@ -54,10 +54,10 @@ public class Game extends View {
         		elements[i][j] = new Cell(cellHeight * j, cellWidth * i);
         	}
         }
-        Board newBoard = new Board(rowCount, columnCount);
+        Board newBoard = new Board(rowCount, columnCount, db);
         for(int i=0; i < rowCount; i++){
         	for(int j=0; j < columnCount; j++){
-        		elements[i][j].number = newBoard.elements[i][j];
+        		elements[i][j]. = newBoard.elements[i][j];
         	}
         }        
 	}

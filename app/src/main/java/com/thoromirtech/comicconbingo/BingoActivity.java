@@ -2,6 +2,7 @@ package com.thoromirtech.comicconbingo;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -9,10 +10,12 @@ import android.view.MenuItem;
 public class BingoActivity extends Activity {
     /** Called when the activity is first created. */
 	private Game game;
+	DatabaseHelper db;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        game = new Game(this);
+        db = new DatabaseHelper(this);
+        game = new Game(this, db);
         setContentView(game);
     }
     
@@ -36,7 +39,7 @@ public class BingoActivity extends Activity {
     }
     
     private void newGame(){
-        game = new Game(this);
+        game = new Game(this, db);
         this.setContentView(game);
     }
 }

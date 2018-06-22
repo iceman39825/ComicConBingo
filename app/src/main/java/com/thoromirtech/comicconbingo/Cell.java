@@ -13,7 +13,7 @@ public class Cell extends Point{
 	public static final int SELECTED = 1;
 	public static final int COMPLETED_A_LINE = 2;
 	
-	int number;
+	String value;
 	int status;
 	
 	public Cell(int x, int y) {	
@@ -33,6 +33,6 @@ public class Cell extends Point{
         }else if(status == 2){
             paintTool.setARGB(255, 255, 0, 0);
         }
-        g.drawText(String.valueOf(this.number), (x*w)+(w/10), (y*h)+(2*h/3), paintTool);
+        g.drawText(String.valueOf(this.value), (x*w)+(w/10), (y*h)+(2*h/3), paintTool);
 	}
 }

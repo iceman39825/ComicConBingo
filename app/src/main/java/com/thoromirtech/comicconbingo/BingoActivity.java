@@ -14,9 +14,9 @@ public class BingoActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        game = new Game(this);
-        setContentView(game);
         db = new DatabaseHelper(this);
+        game = new Game(this, db);
+        setContentView(game);
     }
     
     @Override
@@ -39,7 +39,7 @@ public class BingoActivity extends Activity {
     }
     
     private void newGame(){
-        game = new Game(this);
+        game = new Game(this, db);
         this.setContentView(game);
     }
 }

@@ -31,7 +31,7 @@ public class Game extends View {
 	private Context context;
 	boolean gameOver = false;
 	
-	public Game(Context context) {
+	public Game(Context context, DatabaseHelper db) {
 		super(context);
 		this.context = context;
 		this.setBackgroundColor(Color.WHITE);
@@ -54,10 +54,10 @@ public class Game extends View {
         		elements[i][j] = new Cell(cellHeight * j, cellWidth * i);
         	}
         }
-        Board newBoard = new Board(rowCount, columnCount);
+        Board newBoard = new Board(rowCount, columnCount, db);
         for(int i=0; i < rowCount; i++){
         	for(int j=0; j < columnCount; j++){
-        		elements[i][j].number = newBoard.elements[i][j];
+        		elements[i][j].value = newBoard.elements[i][j];
         	}
         }        
 	}
@@ -93,7 +93,6 @@ public class Game extends View {
                  int totalLines = markTheLine();
             	 this.invalidate();
             	 if(!isGameOver(totalLines)){
-                	 selectANumber();
                 	 totalLines = markTheLine();
                 	 this.invalidate();
                 	 isGameOver(totalLines);
@@ -125,36 +124,6 @@ public class Game extends View {
 	 private void showResultPage(){
 		Intent intent = new Intent(this.getContext().getApplicationContext(), ResultActivity.class);
 		this.getContext().startActivity(intent);
-	 }
-	 
-	 private void selectANumber(){
-		 int[] notSelectedNumbers = new int[25];
-		 int count = 0;
-		 for(int i=0;i<rowCount;i++){
-			 for(int j=0;j<columnCount;j++){
-				 if(elements[i][j].status == Cell.NOT_SELECTED){
-					 notSelectedNumbers[count] = elements[i][j].number;
-					 count++;
-				 }
-			 }
-		 }
-		 if(count >0){
-			 Random randomGenerator = new Random();
-			 int randomInt = randomGenerator.nextInt(count);
-			 int selectedNumber = notSelectedNumbers[randomInt];
-			 
-			 int posX=0, posY=0;
-			 for(int i=0;i<rowCount;i++){
-				 for(int j=0;j<columnCount;j++){
-					 if(elements[i][j].number == selectedNumber){
-						 posX = i;
-						 posY = j;
-					 }
-				 }
-			 }
-	         Toast.makeText(context, "I have selected "+ String.valueOf(selectedNumber), Toast.LENGTH_SHORT).show();
-			 elements[posX][posY].status = Cell.SELECTED;
-         }
 	 }
 	 
 	 public int markTheLine(){

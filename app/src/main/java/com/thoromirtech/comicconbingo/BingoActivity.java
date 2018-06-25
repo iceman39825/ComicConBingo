@@ -1,6 +1,7 @@
 package com.thoromirtech.comicconbingo;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.view.Menu;
@@ -33,7 +34,11 @@ public class BingoActivity extends Activity {
         case R.id.new_game:
             newGame();
             return true;
-        default:
+        case R.id.settings:
+            Intent intent = new Intent(BingoActivity.this, SettingsActivity.class);
+            startActivity(intent);
+            return true;
+         default:
             return super.onOptionsItemSelected(item);
         }
     }

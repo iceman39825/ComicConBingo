@@ -42,12 +42,10 @@ public class DatabaseHelper  extends SQLiteOpenHelper
         db.insert(TABLE_NAME, null, contentValues);
     }
 
-//
- //  public String getCellValue(int randomInt)
- //  {
- //      SQLiteDatabase db = this.getWritableDatabase();
+    public Cursor getCellValues()
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
 
- //      Cursor foo = db.rawQuery("SELECT " + VALUE_COLUMN + " FROM " + TABLE_NAME + " WHERE " + ID_COLUMN + " = " + randomInt, null);
- //      return foo.getString(0);
- //  }
+        return db.rawQuery("SELECT " + VALUE_COLUMN + " FROM " + TABLE_NAME, null);
+    }
 }

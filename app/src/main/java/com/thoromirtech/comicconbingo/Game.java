@@ -1,6 +1,5 @@
 package com.thoromirtech.comicconbingo;
 
-import java.util.Random;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -90,34 +89,21 @@ public class Game extends View {
                  elements[y_aux][x_aux].status = Cell.SELECTED;
                  //Log.d("Bingo","Touched on x: "+String.valueOf(x_aux)+", y: "+String.valueOf(y_aux));
             	 //Toast.makeText(context, "You have selected "+ String.valueOf(elements[y_aux][x_aux].number), Toast.LENGTH_SHORT).show();
-                 int totalLines = markTheLine();
             	 this.invalidate();
-            	 if(!isGameOver(totalLines)){
-                	 totalLines = markTheLine();
+            	 if(!isGameOver()){
                 	 this.invalidate();
-                	 isGameOver(totalLines);
                  }
              }
 		 }
 		 return false;
      }
 	 
-	 private boolean isGameOver(int totalLines){
-    	 int selectedNumbersCount = TOTAL_NUMBERS - getNotSelectedNumbersCount();
-    	 
-         if(totalLines == rowCount){
+	 private boolean isGameOver(){
+         if(markTheLine()){
         	 gameOver = true;
-             if(selectedNumbersCount >= EASY_MODE){
-            	 BingoApplication.result = BingoApplication.TIE;
-             }else{
-            	 BingoApplication.result = BingoApplication.WIN;
-             }
              showResultPage();
-         }else if(selectedNumbersCount >= EASY_MODE){
-        	 gameOver = true;
-        	 BingoApplication.result = BingoApplication.FAIL;
-        	 showResultPage();
          }
+
          return gameOver;
 	 }
 	 
@@ -126,8 +112,7 @@ public class Game extends View {
 		this.getContext().startActivity(intent);
 	 }
 	 
-	 public int markTheLine(){
-		 int totalLines = 0;
+	 public boolean markTheLine(){
 		 int selectedCountInALine;
 		 for(int i=0;i<rowCount;i++){
 			 selectedCountInALine = 0;
@@ -137,9 +122,9 @@ public class Game extends View {
 				 }
 			 }
 			 if(selectedCountInALine == columnCount){
-				 totalLines++;
 				 for(int j=0;j<columnCount;j++){
 					 elements[i][j].status = Cell.COMPLETED_A_LINE;
+					 return true;
 				 }
 			 }
 
@@ -150,9 +135,9 @@ public class Game extends View {
 				 }
 			 }
 			 if(selectedCountInALine == columnCount){
-				 totalLines++;
 				 for(int j=0;j<columnCount;j++){
 					 elements[j][i].status = Cell.COMPLETED_A_LINE;
+					 return true;
 				 }
 			 }
 
@@ -165,9 +150,9 @@ public class Game extends View {
 			 }
 		 }
 		 if(selectedCountInALine == rowCount){
-			 totalLines++;
 			 for(int i=0;i<rowCount;i++){
 				 elements[i][i].status = Cell.COMPLETED_A_LINE;
+				 return true;
 			 }
 		 }
 		 
@@ -178,26 +163,12 @@ public class Game extends View {
 			 }
 		 }
 		 if(selectedCountInALine == rowCount){
-			 totalLines++;
 			 for(int i=0;i<rowCount;i++){
 				 elements[rowCount-(i+1)][i].status = Cell.COMPLETED_A_LINE;
+				 return true;
 			 }
 		 }
 		 
-		 return totalLines;
+		 return false;
 	 }
-	 
-	 private int getNotSelectedNumbersCount(){
-		 int count = 0;
-		 for(int i=0;i<rowCount;i++){
-			 for(int j=0;j<columnCount;j++){
-				 if(elements[i][j].status == Cell.NOT_SELECTED){
-					 count++;
-				 }
-			 }
-		 }
-		 return count;
-	 }
-	 
-	
 }

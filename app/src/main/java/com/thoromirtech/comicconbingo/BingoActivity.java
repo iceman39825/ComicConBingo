@@ -7,6 +7,7 @@ import android.provider.ContactsContract;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.CheckBox;
 
 public class BingoActivity extends Activity {
     /** Called when the activity is first created. */

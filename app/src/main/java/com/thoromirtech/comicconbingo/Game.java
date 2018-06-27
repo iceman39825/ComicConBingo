@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.Toast;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -42,23 +43,19 @@ public class Game extends View {
         
         height = this.getHeight();
         width = this.getWidth();
-        
+
         int cellHeight = height/rowCount;
         int cellWidth = width/columnCount;
         
         elements = new Cell[rowCount][columnCount];
-        
+
         for(int i=0; i < rowCount; i++){
         	for(int j=0; j < columnCount; j++){
         		elements[i][j] = new Cell(cellHeight * j, cellWidth * i);
         	}
         }
-        Board newBoard = new Board(rowCount, columnCount, db);
-        for(int i=0; i < rowCount; i++){
-        	for(int j=0; j < columnCount; j++){
-        		elements[i][j].value = newBoard.elements[i][j];
-        	}
-        }        
+        Board newBoard = new Board(rowCount, columnCount, db, elements);
+        elements = newBoard.filledInElements;
 	}
 	
 	 @Override

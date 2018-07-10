@@ -1,5 +1,7 @@
 package com.thoromirtech.comicconbingo;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -16,12 +18,6 @@ import com.thoromirtech.comicconbingo.Board;
 import com.thoromirtech.comicconbingo.Cell;
 
 public class Game extends View {
-
-	public static final int EASY_MODE = 19;
-	public static final int MEDIUM_MODE = 18;
-	public static final int DIFFICULT_MODE = 17;
-	public static final int TOTAL_NUMBERS = 25;
-	
 	int rowCount = 5;
 	int columnCount = 5;
 	private int height;
@@ -34,9 +30,9 @@ public class Game extends View {
 	public Game(Context context, DatabaseHelper db) {
 		super(context);
 		this.context = context;
-		this.setBackgroundColor(Color.WHITE);
+		this.setBackgroundColor(Color.BLACK);
 		paintTool = new Paint();
-        this.paintTool.setARGB(255, 0, 0, 0);
+        this.paintTool.setColor(Color.WHITE);
         this.paintTool.setAntiAlias(true);
         this.paintTool.setStyle(Style.STROKE);
         this.paintTool.setStrokeWidth(1);
@@ -97,18 +93,16 @@ public class Game extends View {
 	 
 	 private boolean isGameOver(){
          if(markTheLine()){
-        	 gameOver = true;
-             showResultPage();
+             NewGameDialogFragment dialog = new NewGameDialogFragment();
+             final Activity activity = (Activity) context;
+             dialog.show(activity.getFragmentManager(), "");
+
+             gameOver = true;
          }
 
          return gameOver;
 	 }
-	 
-	 private void showResultPage(){
-		Intent intent = new Intent(this.getContext().getApplicationContext(), ResultActivity.class);
-		this.getContext().startActivity(intent);
-	 }
-	 
+
 	 public boolean markTheLine(){
 		 int selectedCountInALine;
 		 for(int i=0;i<rowCount;i++){
@@ -121,9 +115,9 @@ public class Game extends View {
 			 if(selectedCountInALine == columnCount){
 				 for(int j=0;j<columnCount;j++){
 					 elements[i][j].status = Cell.COMPLETED_A_LINE;
-					 return true;
 				 }
-			 }
+                 return true;
+             }
 
 			 selectedCountInALine = 0;
 			 for(int j=0;j<columnCount;j++){
@@ -134,9 +128,9 @@ public class Game extends View {
 			 if(selectedCountInALine == columnCount){
 				 for(int j=0;j<columnCount;j++){
 					 elements[j][i].status = Cell.COMPLETED_A_LINE;
-					 return true;
 				 }
-			 }
+                 return true;
+             }
 
 		 }
 		 
@@ -149,9 +143,9 @@ public class Game extends View {
 		 if(selectedCountInALine == rowCount){
 			 for(int i=0;i<rowCount;i++){
 				 elements[i][i].status = Cell.COMPLETED_A_LINE;
-				 return true;
 			 }
-		 }
+             return true;
+         }
 		 
 		 selectedCountInALine = 0;
 		 for(int i=0;i<rowCount;i++){
@@ -162,9 +156,9 @@ public class Game extends View {
 		 if(selectedCountInALine == rowCount){
 			 for(int i=0;i<rowCount;i++){
 				 elements[rowCount-(i+1)][i].status = Cell.COMPLETED_A_LINE;
-				 return true;
 			 }
-		 }
+             return true;
+         }
 		 
 		 return false;
 	 }

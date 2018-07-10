@@ -1,6 +1,7 @@
 package com.thoromirtech.comicconbingo;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -18,6 +19,7 @@ public class BingoActivity extends Activity {
         super.onCreate(savedInstanceState);
         db = new DatabaseHelper(this);
         game = new Game(this, db);
+
         setContentView(game);
     }
     
@@ -44,7 +46,7 @@ public class BingoActivity extends Activity {
         }
     }
     
-    private void newGame(){
+    public void newGame(){
         game = new Game(this, db);
         this.setContentView(game);
     }

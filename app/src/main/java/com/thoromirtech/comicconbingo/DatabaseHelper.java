@@ -14,7 +14,7 @@ public class DatabaseHelper  extends SQLiteOpenHelper
     public static final String VALUE_COLUMN = "Value";
 
     public DatabaseHelper(Context context) {
-        super(context, DATABASE_NAME, null, 1);
+        super(context, DATABASE_NAME, null, 2);
         SQLiteDatabase db = this.getWritableDatabase();
     }
 
